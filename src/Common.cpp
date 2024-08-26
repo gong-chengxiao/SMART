@@ -1,12 +1,12 @@
 #include "Common.h"
 
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <sys/ioctl.h>
-#include <netinet/in.h>
-#include <net/if.h>
-#include <unistd.h>
 #include <arpa/inet.h>
+#include <net/if.h>
+#include <netinet/in.h>
+#include <sys/ioctl.h>
+#include <sys/socket.h>
+#include <sys/types.h>
+#include <unistd.h>
 
 void bindCore(uint16_t core) {
     cpu_set_t cpuset;
@@ -28,7 +28,7 @@ char *getIP() {
     ioctl(fd, SIOCGIFADDR, &ifr);
     close(fd);
 
-    return inet_ntoa(((struct sockaddr_in*)&ifr.ifr_addr)->sin_addr);
+    return inet_ntoa(((struct sockaddr_in *)&ifr.ifr_addr)->sin_addr);
 }
 
 char *getMac() {

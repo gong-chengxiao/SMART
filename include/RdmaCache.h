@@ -5,15 +5,14 @@
 #include "HugePageAlloc.h"
 
 class Cache {
-
 public:
-  Cache(const CacheConfig &cache_config);
-  ~Cache();
+    Cache(const CacheConfig &cache_config);
+    ~Cache();
 
-  uint64_t data;
-  uint64_t size;
+    uint64_t data;
+    uint64_t size;
 
 private:
 };
 
-#endif // _CACHE_H_
+#endif  // _CACHE_H_

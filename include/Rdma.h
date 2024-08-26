@@ -4,12 +4,12 @@
 #define forceinline inline __attribute__((always_inline))
 
 #include <assert.h>
-#include <cstring>
 #include <infiniband/verbs.h>
 #include <stdint.h>
 #include <stdlib.h>
 #include <unistd.h>
 
+#include <cstring>
 #include <list>
 #include <string>
 
@@ -19,9 +19,9 @@
 #define DCT_ACCESS_KEY 3185
 #define UD_PKEY 0x11111111
 #define PSN 3185
-#define NET_DEV_NAME "enp202s0f0" // [CONFIG]
-#define IB_DEV_NAME_IDX '2'       // [CONFIG]
-#define MLX_PORT 1                // [CONFIG]
+#define NET_DEV_NAME "enp202s0f0"  // [CONFIG]
+#define IB_DEV_NAME_IDX '2'        // [CONFIG]
+#define MLX_PORT 1                 // [CONFIG]
 #define ON_CHIP_SIZE 128
 
 constexpr int kWriteOroMax = 24;
@@ -30,38 +30,38 @@ constexpr int kQPMaxDepth = 4096;
 constexpr int kInlineDataMax = 220;
 
 struct RdmaOpRegion {
-  uint64_t source;
-  uint64_t dest;
-  uint64_t size;
+    uint64_t source;
+    uint64_t dest;
+    uint64_t size;
 
-  uint32_t lkey;
-  union {
-    uint32_t remoteRKey;
-    bool is_on_chip;
-  };
+    uint32_t lkey;
+    union {
+        uint32_t remoteRKey;
+        bool is_on_chip;
+    };
 };
 
 extern int kMaxDeviceMemorySize;
 
 struct RdmaContext {
-  uint8_t devIndex;
-  uint8_t port;
-  int gidIndex;
+    uint8_t devIndex;
+    uint8_t port;
+    int gidIndex;
 
-  ibv_context *ctx;
-  ibv_pd *pd;
+    ibv_context *ctx;
+    ibv_pd *pd;
 
-  uint16_t lid;
-  union ibv_gid gid;
+    uint16_t lid;
+    union ibv_gid gid;
 
-  RdmaContext() : ctx(NULL), pd(NULL) {}
+    RdmaContext() : ctx(NULL), pd(NULL) {}
 };
 
 struct Region {
-  uint64_t source;
-  uint32_t size;
+    uint64_t source;
+    uint32_t size;
 
-  uint64_t dest;
+    uint64_t dest;
 };
 
 //// Resource.cpp
@@ -94,7 +94,6 @@ bool modifyQPtoRTS(struct ibv_qp *qp);
 
 bool modifyUDtoRTS(struct ibv_qp *qp, RdmaContext *context);
 
-
 //// Operation.cpp
 int pollWithCQ(ibv_cq *cq, int pollNumber, struct ibv_wc *wc);
 int pollOnce(ibv_cq *cq, int pollNumber, struct ibv_wc *wc);
@@ -120,9 +119,9 @@ bool rdmaWrite(ibv_qp *qp, uint64_t source, uint64_t dest, uint64_t size,
 bool rdmaFetchAndAdd(ibv_qp *qp, uint64_t source, uint64_t dest, uint64_t add,
                      uint32_t lkey, uint32_t remoteRKey);
 bool rdmaFetchAndAddBoundary(ibv_qp *qp, uint64_t source, uint64_t dest,
-                         uint64_t add, uint32_t lkey, uint32_t remoteRKey,
-                         uint64_t boundary = 63, bool singal = true,
-                         uint64_t wr_id = 0);
+                             uint64_t add, uint32_t lkey, uint32_t remoteRKey,
+                             uint64_t boundary = 63, bool singal = true,
+                             uint64_t wr_id = 0);
 
 bool rdmaCompareAndSwap(ibv_qp *qp, uint64_t source, uint64_t dest,
                         uint64_t compare, uint64_t swap, uint32_t lkey,
@@ -137,12 +136,11 @@ bool rdmaCompareAndSwapMask(ibv_qp *qp, uint64_t source, uint64_t dest,
 void rdmaQueryQueuePair(ibv_qp *qp);
 void checkDMSupported(struct ibv_context *ctx);
 
-
 //// specified
 bool rdmaWriteBatch(ibv_qp *qp, RdmaOpRegion *ror, int k, bool isSignaled,
                     uint64_t wrID = 0);
 bool rdmaReadBatch(ibv_qp *qp, RdmaOpRegion *ror, int k, bool isSignaled,
-                    uint64_t wrID = 0);
+                   uint64_t wrID = 0);
 bool rdmaCasRead(ibv_qp *qp, const RdmaOpRegion &cas_ror,
                  const RdmaOpRegion &read_ror, uint64_t compare, uint64_t swap,
                  bool isSignaled, uint64_t wrID = 0);

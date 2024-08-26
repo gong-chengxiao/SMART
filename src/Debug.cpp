@@ -81,4 +81,3 @@ void Debug::notifyError(const char *format, ...) {
     vprintf(newFormat, args); /* Print string of notify information. */
     va_end(args);             /* End of variable arguments. */
 }
-
